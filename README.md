@@ -14,6 +14,9 @@ version with fictional demo data.
 
 > [!NOTE]
 > All names, companies, and tasks in the demo data and test fixtures are fictional.
+> The agent prompts, skills, and some CLI messages are written for one fictional
+> founder, Jordan Avery of Northwind Studio. To run ExecOS for yourself, see
+> [Make it yours](#make-it-yours).
 
 ![ExecOS command inbox: follow-ups, the agent-ranked queue, and a task with the agent's ranking rationale](docs/screenshots/command-inbox.png)
 
@@ -165,6 +168,30 @@ running the installer (`scripts/install.ps1` or `scripts/install.sh`), which
 publishes the `execos` command and materializes the agent prompts and skills.
 Then just talk to it: "What should I work on?", "Add a task to send the Acme
 proposal Friday", "Run my weekly review".
+
+## Make it yours
+
+ExecOS ships as a reference implementation with a demo persona, so the agent
+addresses the user as Jordan until you change it. Before using it for your own
+work, edit the source files under `Profiles/` and rerun the installer, which
+materializes them for your agent:
+
+- **Who you are.** Replace the "About Jordan" section and the name, company,
+  and product spellings in `Profiles/Production/System Prompts/` (`AGENTS.md`
+  and `CLAUDE.md`), and the persona's name in the skills and in
+  `OperationalContracts/taskops/templates/`.
+- **Your team.** Edit
+  `Profiles/Production/Skills/team-delegation-prod/references/team-roster.md`.
+- **Your working habits.** The prompts assume a biweekly leadership meeting
+  (called L10), voice dictation, and a Notion decision log whose data source ID
+  is a placeholder. Remove or adapt those sections.
+- **Where bug reports go.** The `report-issue-prod` skill files GitHub issues
+  against the checkout's git remote and falls back to this repository; change
+  the fallback to your own fork.
+
+Task IDs use the prefix `KS`. It is a setting (`infrastructure.task_id_prefix`),
+but dependency detection in `src/domain/intake.ts` still matches `KS-`
+literally, so change both together.
 
 ## Repository layout
 

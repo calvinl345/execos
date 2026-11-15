@@ -132,8 +132,8 @@ async function readSequences(sql) {
 }
 
 /**
- * Collect a Docker-free backup of Jordan-owned data. This intentionally
- * avoids Supabase-managed schemas and exports only the app schemas Jordan
+ * Collect a Docker-free backup of ExecOS-owned data. This intentionally
+ * avoids Supabase-managed schemas and exports only the app schemas ExecOS
  * owns: public tables plus Drizzle migration history when present.
  */
 export async function collectAppDataSnapshot(sql, databaseUrl) {

@@ -43,7 +43,7 @@ require_command npm "npm should be installed with Node.js. Reinstall Node.js 20+
 
 node_major="$(node -p "Number(process.versions.node.split('.')[0])" 2>/dev/null || printf '0')"
 if [ "${node_major}" -lt 20 ]; then
-  printf 'Found Node.js %s, but Jordan requires Node.js 20+.\n\n' "$(node --version 2>/dev/null || printf '<unknown>')" >&2
+  printf 'Found Node.js %s, but ExecOS requires Node.js 20+.\n\n' "$(node --version 2>/dev/null || printf '<unknown>')" >&2
   print_node_hint
   exit 1
 fi

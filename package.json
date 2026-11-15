@@ -76,7 +76,7 @@
     "db:seed:prod": "node scripts/run-with-env.cjs .env.production.local node --import=tsx scripts/seed-app-settings.ts",
     "db:backfill-embeddings:dev": "node scripts/run-with-env.cjs .env.development.local node --import=tsx scripts/backfill-task-embeddings.ts",
     "db:backfill-embeddings:prod": "node scripts/run-with-env.cjs .env.production.local node --import=tsx scripts/backfill-task-embeddings.ts",
-    "prepare": "husky || echo 'husky setup skipped (re-run with: npx husky)'",
+    "prepare": "svelte-kit sync && husky || echo 'prepare step skipped: re-run with npx svelte-kit sync and npx husky'",
     "demo:seed": "node scripts/seed-demo.mjs",
     "demo:reset": "node scripts/demo-reset.mjs"
   },

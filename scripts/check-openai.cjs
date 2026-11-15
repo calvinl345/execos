@@ -3,7 +3,7 @@
 //
 // Verifies:
 //   1. OPENAI_API_KEY is set
-//   2. The key can call the embedding model Jordan uses at runtime
+//   2. The key can call the embedding model ExecOS uses at runtime
 
 const key = process.env.OPENAI_API_KEY || '';
 const model = process.env.OPENAI_EMBEDDING_MODEL || 'text-embedding-3-large';

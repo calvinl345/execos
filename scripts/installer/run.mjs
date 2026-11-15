@@ -576,7 +576,7 @@ async function promptForCredentials(context) {
       "Find it in Supabase: Project Settings -> API Keys -> Publishable and secret API keys.",
       `Open: https://supabase.com/dashboard/project/${projectId}/settings/api`,
       "Copy the Secret key. It usually starts with sb_secret_. Legacy service_role keys also work.",
-      "Jordan's CLI uses this for writes and storage uploads. Keep it private.",
+      "The ExecOS CLI uses this for writes and storage uploads. Keep it private.",
     ],
   });
   context.values.SUPABASE_ANON_KEY = await promptValue(context, "5. Supabase publishable/anon key", {
@@ -611,7 +611,7 @@ async function promptForCredentials(context) {
     step: 7,
     totalSteps: credentialSteps,
     help: [
-      "Used only by Jordan's embedding adapter for memory retrieval.",
+      "Used only by the ExecOS embedding adapter for memory retrieval.",
       "Open: https://platform.openai.com/api-keys",
       "It starts with sk-.",
     ],
@@ -982,7 +982,7 @@ async function writeSupabaseExtensionsScreen(context, projectId, step, totalStep
   writeProgressLine(step, totalSteps);
   console.log("");
   console.log(formatBold("2. Enable Supabase extensions"));
-  console.log("  Supabase does not always enable Jordan's required Postgres extensions by default.");
+  console.log("  Supabase does not always enable the Postgres extensions ExecOS requires by default.");
   console.log("  Open the project extensions page:");
   writeLabelLine("Open", extensionsUrl);
   console.log("");
