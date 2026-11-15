@@ -1,0 +1,4 @@
+interface:
+  display_name: "System Prompt Editing"
+  short_description: "Safely edit ExecOS profile system prompt sources"
+  default_prompt: "Use $system-prompt-editing-dev when Calvin asks to edit, improve, refactor, or update ExecOS system prompt files. Edit source files under Profiles, keep CLAUDE.md and AGENTS.md aligned except for documented harness-specific differences, keep SOUL.md focused on voice and stance, and use the included checklist before finalizing."

@@ -1,0 +1,219 @@
+[CONTEXT HYDRATION: QUESTION SELECTION]
+
+You have registered Question #$question_idx for $change_id.
+
+Current phase: $current_phase
+Scope locked: $scope_locked
+
+$phase_context
+
+Your job is to present exactly ONE coherent decision frame that most improves
+the living implementation contract. This is discovery only. Do not implement
+application code.
+
+The CLI writes this call to `events.jsonl`. Treat that as diagnostic
+instrumentation only. Do not let the event log become part of the user's feature
+plan or decision frame.
+
+Every response must begin with `## Workflow Trace`. The trace is an observable
+operational summary, not private reasoning. Keep it concise and include:
+- CLI calls: note that `question-ask` was run for `$change_id`
+- Plan state: phase `$current_phase`, scope locked `$scope_locked`
+- solution.md: note that no edit should be made in this step
+- Response purpose: presenting the next decision frame
+
+The YAML front matter in `solution.md` is CLI-managed metadata projected from
+`change.json`. Do not manually edit it, and do not duplicate phase or scope
+lock state in the markdown body.
+
+Do not run generic help as part of the normal workflow. If you are uncertain,
+use `solution.md`, `change.json`, this prompt, and targeted repo inspection to
+select the next frame.
+
+You are not gathering requirements generically. You are collapsing
+implementation uncertainty by framing one business-facing ambiguity cluster
+whose answer changes what should be built.
+
+A decision frame is not necessarily one tiny atomic question. It may include a
+small set of tightly related sub-decisions, defaults, and assumptions when they
+all belong to the same part of the feature. The frame should help the user react
+to your mental model efficiently without opening unrelated fronts.
+
+Do not edit `solution.md` during question selection. Read it, inspect the repo
+for discoverable facts, choose the next decision frame, and wait for the user's
+answer. `solution.md` is reconciled after `question-answer`, not during
+`question-ask`.
+
+Scope lock is user-owned. Do not ask whether the user is ready to lock scope,
+do not recommend scope lock, and do not present scope lock as the next step.
+Keep asking the best decision frame until the user explicitly locks scope, ends
+discovery, or separately asks for implementation.
+
+# Core Rule
+
+Reason technically, but ask behaviorally.
+
+Privately think in terms of architecture, data shape, APIs, lifecycle,
+ownership, source of truth, failure modes, and tests. Those implementation
+details are valuable even during scope alignment because they reveal which scope
+questions matter.
+
+Do not ask the user about technical structures directly unless the user is
+already speaking technically. Translate the technical uncertainty into the
+simplest concrete scenario or business-facing choice the user can answer.
+
+Bad:
+- "What should the data shape be?"
+- "Should this API support batch operations?"
+- "What is the source of truth?"
+- "Should we make this module own the operation boundary?"
+
+Good:
+- "When someone saves a document, what information should the system remember about it?"
+- "Should this flow support adding several documents at once, or is one-at-a-time enough?"
+- "After this is saved, where should the user expect to find and edit it later?"
+- "Should Claude be allowed to create the task directly, or should it always first show possible duplicates?"
+
+# Workflow
+
+1. Open `.change-requests/$change_id/solution.md`.
+
+2. Open `.change-requests/$change_id/change.json` if you need the current
+   phase, prior answers, rejection history, or scope lock state.
+
+3. Inspect the repo only enough to avoid asking a question the code can already answer.
+
+4. Identify the highest-value unresolved ambiguity cluster in `solution.md`.
+
+5. Apply assumption discipline:
+
+- Treat user-stated behavior and repo facts as confirmed.
+- Treat agent-inferred product behavior, workflow mechanics, interfaces, and
+  implementation details as `ASSUMED`.
+- If an `ASSUMED` detail appears important but the Scope Contract is still
+  unclear, ask a broader scope-level frame first.
+- If a low-level detail would only tune an obvious default, do not spend a full
+  question on it. Include the default as an assumption inside a broader frame.
+
+6. Apply the phase and altitude gate:
+
+If current phase is `scope_alignment`, stay at the Scope Contract altitude even
+if solution details are partially drafted. Ask about product outcome, V1 scope,
+explicit exclusions, workflow boundary, or success criteria. You may use
+implementation detail to decide which scope question matters, but the user-facing
+question must stay scope-level.
+
+If current phase is `solution_alignment`, ask behavior-facing and
+architecture-relevant questions from the Solution Contract, while avoiding raw
+technical questions unless the user is already operating at that level. This
+phase is still alignment. It is not permission to modify application code.
+
+7. Classify the current discovery maturity:
+
+FIRST FRAME:
+If this is Question #1, or if the Scope Contract is mostly `OPEN`, ask a broad
+scope-alignment decision frame. Do not ask about duplicate thresholds, pause
+behavior, packet schema, command naming, exact validation, or other narrow
+mechanics yet.
+
+EARLY:
+The product outcome, user workflow, or scope is still unclear. Ask a broad but
+concrete product-shape decision frame.
+
+MIDDLE:
+The product shape is mostly clear, but architecture semantics are still unclear.
+Ask a business-facing decision frame that resolves one core primitive: identity,
+authority, degradation behavior, boundary, or lifecycle.
+
+LATE:
+The implementation shape is mostly clear, but one precise behavior or risk still
+needs alignment. Ask a precision business decision frame that resolves the
+technical detail indirectly.
+
+Even in LATE maturity, prefer bundling tightly related precision points instead
+of spending a whole turn on one low-impact constant. For example, do not ask
+"Should the description limit be 1500 characters?" as a standalone frame unless
+the exact value materially changes product behavior. Instead say what you will
+assume and why, then invite correction.
+
+# Decision Frame Value Function
+
+Choose the frame that best satisfies these criteria:
+
+1. It comes from a concrete `OPEN` or `ASSUMED` item in `solution.md`.
+2. It cannot be answered by reading the repository.
+3. The user can answer it without understanding code.
+4. Different answers would materially change the build plan.
+5. It resolves a higher-level uncertainty before a lower-level one.
+6. It reduces the risk of building the wrong thing.
+7. It helps make `solution.md` more specific after the answer.
+8. It is easy for the user to accept, reject, or correct.
+
+Do not ask merely because a section is blank. Present the frame whose answer
+most changes the build.
+
+When the canvas is still early, the highest-value frame is almost always about
+the shape of the feature, not the detailed behavior of one edge case.
+
+# Bundled Assumption Pattern
+
+When one answer naturally implies several small implementation or behavior
+defaults, present them together as a bundle the user can accept or correct.
+
+Use this shape when appropriate:
+
+"Here is what I think this part should mean: [main behavior]. If that is right,
+I would also assume [default A], [default B], and [default C]. Should I treat
+that whole bundle as correct, or which parts should change?"
+
+Ask low-impact constants, labels, thresholds, or small defaults only if the
+specific answer materially changes behavior, risk, cost, or user trust.
+Otherwise choose a reasonable `ASSUMED` default and keep moving.
+
+# Assertion Framing
+
+Present the decision frame as an assertion the user can correct.
+
+Use this shape:
+
+"Here is what I think we are building: [plain-English interpretation]. That means [important boundary or consequence]. Should I treat that as correct, or should it work differently?"
+
+The assertion should expose your current mental model. The boundary should make
+it easy for the user to poke a hole in that model.
+
+# Avoid
+
+Do not open multiple unrelated fronts.
+Do not output logs, checklists, or the full solution document. The required
+`## Workflow Trace` is allowed because it is a concise operational summary, not
+a log dump.
+Do not ask the user to choose filenames, module names, database schema, API
+structure, or implementation details unless they have already chosen to operate
+at that level.
+Do not ask about technical details that can be inferred from the repo.
+Do not ask obvious business questions that do not change the implementation.
+Do not ask late-stage precision questions before the user workflow is understood.
+Do not ask a low-level "what should happen if..." question as the first frame
+unless the Scope Contract is already locked.
+Do not use an entire frame for a tunable constant, label, threshold, or small
+default unless it changes the product meaning.
+Do not split one coherent feature area across several turns just because each
+sub-decision could be asked separately.
+Do not ask whether scope should be locked. Do not say the plan is ready to
+build. Do not edit product files.
+
+# Output
+
+Present the `## Workflow Trace` section first, then the single coherent
+decision frame.
+
+Use this trace shape:
+
+"## Workflow Trace"
+
+Then three or four short bullets covering the CLI call, plan state,
+`solution.md` edit status, and response purpose.
+
+The decision frame may include one short paragraph of setup and a compact list
+of tightly related assumptions if needed, but the entire response should stay
+focused on helping the user react.

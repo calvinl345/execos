@@ -1,0 +1,12 @@
+{
+  "mcpServers": {
+    "svelte": {
+      "command": "npx",
+      "args": ["-y", "@sveltejs/mcp"]
+    },
+    "superhuman-mail": {
+      "type": "http",
+      "url": "https://mcp.mail.superhuman.com/mcp"
+    }
+  }
+}

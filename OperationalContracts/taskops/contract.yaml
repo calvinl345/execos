@@ -1,0 +1,241 @@
+# Task management operational contract.
+#
+# Every return the contract can emit is backed by an editable template here.
+# Each operation declares its returns by kind:
+#
+#   hydrate  -> the context packet the CLI prints when the agent asks what to
+#               do. For write operations this packet instructs the agent to run
+#               a CRUD subcommand next; for read operations (show/list) it is
+#               terminal and the agent answers Jordan directly.
+#   receipt  -> the text confirmation the CLI prints AFTER a write subcommand
+#               (create/update/complete) actually lands. This is distinct from
+#               the hydrate packet for the same operation. The --format json
+#               record is a separate machine contract and is not templated.
+#
+# Read operations (show/list) have no receipt because they do not write.
+#
+# description: human-only summary of what the operation does. Not consumed by
+#   the CLI; it exists to make this file self-explanatory.
+#
+# returns_subcommand:
+#   true  -> the hydrate packet ends by telling the agent to run a CRUD
+#            subcommand (taskops create / update / complete).
+#   false -> terminal; no follow-up command.
+#
+# hydrates: the live context sections compiled into a hydrate packet (the slot
+#   values are filled by the CLI from the database before rendering).
+#
+# Available slots:
+#   hydrate create : intent, active_tasks, dedup_matches, active_goals,
+#                    memories
+#   hydrate update : intent, task_id, target_task, target_description,
+#                    active_goals, memories
+#   hydrate complete: task_id, target_task, memories
+#   hydrate cancel : intent, task_id, target_task
+#   hydrate reopen : intent, task_id, target_task, memories
+#   hydrate show   : task_id, title, status, priority, owner, due, goal,
+#                    description, notes, memories
+#   hydrate list   : active_tasks, active_goals
+#   hydrate re-rank: situational_context, candidate_tasks, active_goals,
+#                    overdue, stale, new_triage, arrived_snooze,
+#                    commitments_at_risk, goals_at_risk, newly_unblocked,
+#                    current_queue, memories
+#   hydrate delegate: intent, task_id, target_task, target_description,
+#                    owner_candidates, owner_open_tasks, default_follow_up,
+#                    warnings, memories
+#   hydrate follow-up: intent, task_id, target_task, target_description,
+#                    notes, warnings, memories
+#   hydrate defer  : intent, task_id, target_task
+#   hydrate dependency-add : intent, task_id, target_task
+#   hydrate dependency-remove : intent, task_id, target_task
+#   hydrate flag-attention : intent, task_id, target_task
+#   hydrate unflag-attention : intent, task_id, target_task
+#   hydrate follow-ups: due_followups
+#   hydrate draft-follow-ups: draft_context_blocks
+#   receipt create : task_id, title, description, status, priority, category,
+#                    owner, due, follow_up, goal_id, hard_deadline, effort
+#   receipt update : task_id, title, description, status, priority, category,
+#                    owner, due, follow_up, goal_id, hard_deadline, effort
+#   receipt complete: task_id, from, to
+#   receipt delegate: task_id, owner, follow_up, due, note_id,
+#                    owner_open_tasks, warnings
+#   receipt follow-up: task_id, next_follow_up, due, status, note_id, warnings
+#   receipt defer: task_id, follow_up, warnings
+#   receipt cancel : task_id, from, to
+#   receipt reopen : task_id, from, to
+#   receipt dependency-add : task_id, blocked_by
+#   receipt dependency-remove : task_id, blocked_by
+#   receipt flag-attention : task_id, reason
+#   receipt unflag-attention: task_id
+#   receipt re-rank: ranked_at, entries, cleared
+contract: taskops
+operations:
+  create:
+    description: >-
+      Create a brand-new task. The hydrate packet supplies the active task list
+      (for duplicate detection), active goals (for linking), and relevant
+      memories, then directs the agent to run `taskops create` to write it.
+    hydrate:
+      template: templates/create.hydrate.md
+      returns_subcommand: true
+      hydrates: [active_tasks, dedup_matches, active_goals, memories]
+    receipt:
+      template: templates/create.receipt.md
+  update:
+    description: >-
+      Change fields or a non-terminal status on an existing task (title,
+      description, priority, owner, due date, or status such as in_progress or
+      blocked). Marking a task done or cancelled is NOT done here; use complete.
+    hydrate:
+      template: templates/update.hydrate.md
+      returns_subcommand: true
+      hydrates: [target_task, active_goals, memories]
+    receipt:
+      template: templates/update.receipt.md
+  complete:
+    description: >-
+      Mark an existing task as done. This is the terminal "task finished"
+      operation: it transitions the task's status to done and logs the change.
+    hydrate:
+      template: templates/complete.hydrate.md
+      returns_subcommand: true
+      hydrates: [target_task, memories]
+    receipt:
+      template: templates/complete.receipt.md
+  cancel:
+    description: >-
+      Cancel an existing task. This is the terminal "task abandoned" operation:
+      it transitions the task's status to cancelled and logs the change. The
+      cancel subcommand requires explicit confirmation via --yes.
+    hydrate:
+      template: templates/cancel.hydrate.md
+      returns_subcommand: true
+      hydrates: [target_task]
+    receipt:
+      template: templates/cancel.receipt.md
+  reopen:
+    description: >-
+      Restore a done or cancelled task to active work. If no target status is
+      supplied, the service restores the previous non-terminal, non-triage
+      status from activity history, falling back to backlog.
+    hydrate:
+      template: templates/reopen.hydrate.md
+      returns_subcommand: true
+      hydrates: [target_task, memories]
+    receipt:
+      template: templates/reopen.receipt.md
+  show:
+    description: >-
+      Read one task with full context: its details, linked goal, recent notes,
+      and (when an intent is provided) matching memories. Terminal; no write and
+      no follow-up command.
+    hydrate:
+      template: templates/show.hydrate.md
+      returns_subcommand: false
+      hydrates: [target_task, target_goal, target_notes, memories]
+  list:
+    description: >-
+      Read all active tasks and goals as a single hydrated overview. Terminal;
+      no write and no follow-up command.
+    hydrate:
+      template: templates/list.hydrate.md
+      returns_subcommand: false
+      hydrates: [active_tasks, active_goals]
+  delegate:
+    description: >-
+      Delegate an existing task to a resolved team-table owner and choose a
+      follow-up date independent of the work due date.
+    hydrate:
+      template: templates/delegate.hydrate.md
+      returns_subcommand: true
+      hydrates: [target_task, owner_candidates, owner_open_tasks, memories]
+    receipt:
+      template: templates/delegate.receipt.md
+  follow-up:
+    description: >-
+      Record the delegate's update, append a task note, optionally revise due
+      date or status, and set the next follow-up date.
+    hydrate:
+      template: templates/follow-up.hydrate.md
+      returns_subcommand: true
+      hydrates: [target_task, target_notes, memories]
+    receipt:
+      template: templates/follow-up.receipt.md
+  defer:
+    description: >-
+      Mechanically defer any open task or follow-up by setting follow_up_date.
+      Direct dashboard callers may invoke the same mutation without hydration.
+    hydrate:
+      template: templates/defer.hydrate.md
+      returns_subcommand: true
+      hydrates: [target_task]
+    receipt:
+      template: templates/defer.receipt.md
+  dependency-add:
+    description: >-
+      Record that one task is blocked by another. Mechanical mutation: it
+      refuses dependency cycles and notes the link on both tasks.
+    hydrate:
+      template: templates/dependency-add.hydrate.md
+      returns_subcommand: true
+      hydrates: [target_task]
+    receipt:
+      template: templates/dependency-add.receipt.md
+  dependency-remove:
+    description: >-
+      Remove an existing blocked-by link between two tasks. Mechanical
+      mutation: it notes the removal on both tasks.
+    hydrate:
+      template: templates/dependency-remove.hydrate.md
+      returns_subcommand: true
+      hydrates: [target_task]
+    receipt:
+      template: templates/dependency-remove.receipt.md
+  flag-attention:
+    description: >-
+      Flag a task as needing attention, with a required reason. Mechanical
+      mutation: it sets the attention flag and records the reason.
+    hydrate:
+      template: templates/flag-attention.hydrate.md
+      returns_subcommand: true
+      hydrates: [target_task]
+    receipt:
+      template: templates/flag-attention.receipt.md
+  unflag-attention:
+    description: >-
+      Clear the attention flag on a task. Mechanical mutation: it unsets the
+      flag and records the change.
+    hydrate:
+      template: templates/unflag-attention.hydrate.md
+      returns_subcommand: true
+      hydrates: [target_task]
+    receipt:
+      template: templates/unflag-attention.receipt.md
+  follow-ups:
+    description: >-
+      Read due or overdue follow-ups grouped by responsible person. Terminal;
+      no write and no follow-up command.
+    hydrate:
+      template: templates/follow-ups.hydrate.md
+      returns_subcommand: false
+      hydrates: [due_followups]
+  draft-follow-ups:
+    description: >-
+      Read per-person context blocks for the agent to draft friendly Slack
+      follow-up messages. Terminal; no write and no follow-up command.
+    hydrate:
+      template: templates/draft-follow-ups.hydrate.md
+      returns_subcommand: false
+      hydrates: [draft_context_blocks]
+  re-rank:
+    description: >-
+      Re-rank Jordan's do-next queue. The hydrate packet supplies ranked
+      candidates, review anomalies, risk sections, the current queue, and any
+      situational context Jordan provided, then directs the agent to run
+      `taskops re-rank` to lock the new top-5 queue in the same turn.
+    hydrate:
+      template: templates/re-rank.hydrate.md
+      returns_subcommand: true
+      hydrates: [situational_context, candidate_tasks, active_goals, overdue, stale, new_triage, arrived_snooze, commitments_at_risk, goals_at_risk, newly_unblocked, current_queue, memories]
+    receipt:
+      template: templates/re-rank.receipt.md

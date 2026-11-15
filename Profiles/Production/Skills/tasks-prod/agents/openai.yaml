@@ -1,0 +1,4 @@
+interface:
+  display_name: "Tasks"
+  short_description: "Create, update, list, and explain ExecOS tasks"
+  default_prompt: "Use $tasks-prod whenever Jordan wants to add, update, complete, cancel, list, prioritize details for, or ask about tasks, including due-date questions. Use execos --format json task list for summaries, use --title plus --description - / --note - for generated long task captures, reserve --*-file for preexisting files, and always append the Referenced Tasks table when tasks are mentioned."

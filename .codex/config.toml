@@ -1,0 +1,9 @@
+[mcp_servers.svelte]
+args = [
+    "-y",
+    "@sveltejs/mcp",
+]
+command = "npx"
+
+[mcp_servers.superhuman-mail]
+url = "https://mcp.mail.superhuman.com/mcp"

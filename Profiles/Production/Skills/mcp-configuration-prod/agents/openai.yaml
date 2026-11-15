@@ -1,0 +1,4 @@
+interface:
+  display_name: "MCP Configuration"
+  short_description: "Configure repo-local MCP servers for Claude Code and Codex"
+  default_prompt: "Use $mcp-configuration-prod when the user asks to add, inspect, update, remove, verify, or troubleshoot project-scoped MCP configuration for ExecOS. Default to Claude Code `.mcp.json`; use Codex `.codex/config.toml` only when requested; never hardcode secrets."

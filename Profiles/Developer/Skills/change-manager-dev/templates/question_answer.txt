@@ -1,0 +1,157 @@
+[CONTEXT HYDRATION: SOLUTION RECONCILIATION]
+
+Response recorded for Question #$question_idx.
+
+Current phase: $current_phase
+Scope locked: $scope_locked
+
+$phase_context
+
+Your job is to translate the user's answer into implementation consequences and
+rewrite `solution.md` as the latest coherent planning contract.
+
+Do not append a meeting note. Do not paste the user's answer as a transcript.
+Update the implementation contract so it reads as if this answer had always been
+part of the plan.
+
+This is discovery only. Do not edit application code. Scope lock does not
+authorize implementation. Scope lock only changes the question altitude from
+scope alignment to solution alignment.
+
+Every response must begin with `## Workflow Trace`. The trace is an observable
+operational summary, not private reasoning. Keep it concise and include:
+- CLI calls: note that `question-answer` was run for `$change_id`, and whether
+  `checkpoint` was run after editing `solution.md`
+- Plan state: phase `$current_phase`, scope locked `$scope_locked`
+- solution.md: summarize sections edited during reconciliation
+- Response purpose: confirming reconciliation and stating the next step
+
+The YAML front matter in `solution.md` is CLI-managed metadata projected from
+`change.json`. Do not manually edit it, and do not duplicate phase or scope
+lock state in the markdown body. If front matter and `change.json` disagree,
+treat `change.json` as authoritative and rerun the CLI command that caused the
+current step.
+
+The user may answer a bundled decision frame by accepting some parts, rejecting
+others, and adding new constraints. Treat that as normal. Reconcile the answer
+into confirmed decisions, invalidated assumptions, revised assumptions, and
+remaining open questions.
+
+# Workflow
+
+1. Open `.change-requests/$change_id/solution.md` immediately.
+
+2. Open `.change-requests/$change_id/change.json` if you need the exact
+   question, answer, or rejection reason.
+
+3. Privately ask:
+   - Which section of `solution.md` does this answer change?
+   - Which previous `ASSUMED` item is now confirmed, revised, or invalidated?
+   - What implementation detail is now knowable because of this answer?
+   - What risk, boundary, lifecycle rule, authority rule, or degradation behavior did this answer imply?
+   - What is now the highest-priority remaining `OPEN` question?
+   - If the response is a rejection, did it reject the feature direction, the
+     altitude of the frame, the wording, or an unconfirmed assumption?
+   - If the frame contained bundled assumptions, which parts did the user accept,
+     reject, modify, or leave unanswered?
+
+4. Rewrite `solution.md` as the current best implementation contract:
+   - Preserve the standard section structure.
+   - Keep the Scope Contract at the top and the Solution Contract below it.
+   - Preserve the YAML front matter exactly as CLI-managed metadata. Do not
+     edit it manually.
+   - Replace placeholders with concrete plan details wherever possible.
+   - Mark unresolved items as `OPEN`.
+   - Mark provisional but reasonable implementation choices as `ASSUMED`.
+   - Mark user-confirmed decisions as confirmed only when the answer actually
+     confirms them.
+   - Always update the full Solution Contract with inferred implementation
+     detail when the user's answer makes that detail knowable, but keep it
+     framed as planning detail rather than permission to build.
+   - Split bundled answers into separate plan consequences instead of storing
+     them as one blob.
+   - Convert low-impact constants, limits, labels, and thresholds into
+     `ASSUMED` defaults unless the user explicitly confirms or rejects them.
+   - Never mark scope locked from a normal answer. Scope is locked only when the
+     user explicitly chooses Scope lock and the `scope-lock` command is run.
+   - Never record scope lock itself as a normal question answer. It belongs in
+     `scope_events`, not the question ledger.
+   - Do not duplicate phase or scope lock state in the markdown body.
+   - Keep `change.json` as the durable question/answer ledger.
+   - Keep rejected-question feedback out of `solution.md` unless it changes the actual feature design.
+
+5. If the user rejected the decision frame as too narrow, vague, premature, or
+   poorly grounded:
+   - Do not add more implementation mechanics as compensation.
+   - Move overconfident details back to `ASSUMED` or `OPEN`.
+   - Re-open the relevant Scope Contract item if the scope was not actually
+     settled.
+   - Make the next `Open Questions` item a higher-altitude product-shape frame.
+
+6. Ensure the updated plan includes, as far as currently knowable:
+   - Scope Contract alignment summary, product outcome, V1 scope, explicit
+     exclusions, workflow boundary, and success criteria
+   - command or API surface
+   - packet, data, or output shape
+   - module and file impact map
+   - data reads/writes and source of truth
+   - pseudocode or execution sketch
+   - tests and verification
+   - assumptions and open questions ranked by implementation risk
+   - no claim that the work is ready to build unless the user separately asked
+     for implementation
+
+7. Identify the next useful decision frame.
+
+Use a phase-aware altitude gate:
+- If current phase is `scope_alignment`, keep asking scope-level questions until
+  the user chooses Scope lock. The next open question should come from Product
+  Outcome, V1 Scope, Explicitly Out Of Scope, Workflow Boundary, or Success
+  Criteria.
+- If current phase is `solution_alignment`, continue asking solution-alignment
+  questions. This is still discovery. Do not implement application code.
+- If current phase is `solution_alignment` and the user's answer changes the
+  locked scope, recommend running `scope-unlock --id $change_id --reason
+  "<reason>" --intent "<why locked scope must reopen>"` before continuing.
+- If the remaining uncertainty is a low-impact constant, command label, field
+  name, threshold, or similar tunable detail, choose a reasonable `ASSUMED`
+  default instead of generating a full follow-up question.
+- Only ask about packet shape, command/API details, module structure, or test
+  specifics while scope is locked, and keep those questions behavior-facing.
+- Do not recommend scope lock, do not ask whether scope should be locked, and do
+  not declare discovery complete. Those are user-owned decisions.
+
+8. Execute `question-ask --intent` to continue the loop unless the user has
+explicitly ended discovery or asked to implement. If no obvious ambiguity
+remains, ask a verification frame that lets the user challenge the plan instead
+of moving to code.
+
+9. After editing `solution.md`, run:
+
+`python .claude/skills/change-manager-dev/scripts/change_cli.py checkpoint --id $change_id --intent "<short summary of what changed in solution.md>"`
+
+This checkpoint is diagnostic instrumentation only. It records the current
+solution hash and does not validate quality. Antigravity hooks may also record
+solution edit attempts automatically, but the checkpoint gives the workflow log
+a semantic marker after reconciliation.
+
+10. Respond to the user with `## Workflow Trace` first, then a concise summary
+of what changed and the next discovery frame or alignment step. Do not include
+private chain-of-thought. Do not say "ready for build", "ready to implement",
+or similar unless the user separately asked to build.
+
+# Reconciliation Rule
+
+Ask behaviorally, receive a business answer, translate into architecture, then
+update the plan.
+
+Every loop should make `solution.md` more decisive: fewer placeholders, fewer
+vague assumptions, more concrete behavior, clearer boundaries, stronger
+verification.
+
+More decisive does not always mean more detailed. Sometimes it means reducing
+false certainty by marking an unconfirmed detail as `ASSUMED` or `OPEN`.
+
+More decisive also does not require asking about every small remaining choice.
+Prefer useful progress: bundle related ambiguity, assume obvious defaults, and
+reserve user questions for decisions that change what should be built.

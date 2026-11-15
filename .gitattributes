@@ -1,0 +1,15 @@
+# Force LF line endings on all shell scripts and Husky hooks.
+# Bash on Windows (Git Bash, WSL, GitLab CI Linux runners) chokes on CRLF.
+*.sh         text eol=lf
+.husky/*     text eol=lf
+.gitlab/scripts/* text eol=lf
+
+# Force LF on common config files to avoid OS-conflict noise in diffs.
+*.json       text eol=lf
+*.yml        text eol=lf
+*.yaml       text eol=lf
+*.md         text eol=lf
+*.ts         text eol=lf
+*.js         text eol=lf
+*.cjs        text eol=lf
+*.mjs        text eol=lf

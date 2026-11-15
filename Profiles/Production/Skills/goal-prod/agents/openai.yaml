@@ -1,0 +1,4 @@
+version: 1
+openai:
+  short_description: "Manage ExecOS goals"
+  default_prompt: "Use $goal-prod when Jordan asks to create, update, inspect, list, link work to, or close goals. Use execos goal commands, prefer stdin for long generated goal descriptions, and require explicit confirmation before close-achieved or close-dropped."

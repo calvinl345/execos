@@ -1,0 +1,308 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, "Fira Code", monospace;
+}
+
+html,
+body {
+  font-family: var(--font-sans);
+  font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+}
+
+html {
+  background: #fafafa;
+  color-scheme: light;
+}
+
+html.dark {
+  background: #171717;
+  color-scheme: dark;
+}
+
+.dark input,
+.dark textarea,
+.dark select {
+  color-scheme: dark;
+}
+
+.dark .bg-white,
+.dark .bg-white\/80 {
+  background-color: rgb(38 38 38);
+}
+
+.dark .bg-neutral-50,
+.dark .bg-neutral-50\/70,
+.dark .bg-neutral-50\/80 {
+  background-color: rgb(31 31 31);
+}
+
+.dark .bg-neutral-100,
+.dark .bg-neutral-100\/80 {
+  background-color: rgb(51 51 51);
+}
+
+.dark .bg-neutral-200 {
+  background-color: rgb(82 82 82);
+}
+
+.dark .bg-red-50,
+.dark .bg-red-100 {
+  background-color: rgb(69 10 10 / 0.78);
+}
+
+.dark .bg-orange-50,
+.dark .bg-orange-100 {
+  background-color: rgb(67 20 7 / 0.78);
+}
+
+.dark .bg-amber-50,
+.dark .bg-amber-50\/40,
+.dark .bg-amber-50\/80 {
+  background-color: rgb(69 26 3 / 0.74);
+}
+
+.dark .bg-blue-50,
+.dark .bg-blue-50\/80,
+.dark .bg-blue-100 {
+  background-color: rgb(23 37 84 / 0.76);
+}
+
+.dark .bg-purple-50,
+.dark .bg-purple-100,
+.dark .bg-purple-50\/80 {
+  background-color: rgb(59 7 100 / 0.72);
+}
+
+.dark .bg-rose-50\/80 {
+  background-color: rgb(76 5 25 / 0.74);
+}
+
+.dark .bg-violet-50\/80 {
+  background-color: rgb(46 16 101 / 0.74);
+}
+
+.dark .bg-emerald-50,
+.dark .bg-emerald-50\/80,
+.dark .bg-emerald-100 {
+  background-color: rgb(2 44 34 / 0.76);
+}
+
+.dark .border-neutral-100,
+.dark .border-neutral-200 {
+  border-color: rgb(64 64 64);
+}
+
+.dark .border-neutral-300,
+.dark .border-neutral-400 {
+  border-color: rgb(115 115 115);
+}
+
+.dark .border-amber-100 {
+  border-color: rgb(120 53 15);
+}
+
+.dark .border-red-200,
+.dark .border-red-300 {
+  border-color: rgb(127 29 29);
+}
+
+.dark .border-orange-200 {
+  border-color: rgb(124 45 18);
+}
+
+.dark .border-blue-100 {
+  border-color: rgb(30 64 175);
+}
+
+.dark .border-rose-100 {
+  border-color: rgb(159 18 57);
+}
+
+.dark .border-violet-100 {
+  border-color: rgb(91 33 182);
+}
+
+.dark .border-emerald-100 {
+  border-color: rgb(6 95 70);
+}
+
+.dark .border-white\/70 {
+  border-color: rgb(255 255 255 / 0.14);
+}
+
+.dark .divide-neutral-100 > :not(:last-child),
+.dark .divide-neutral-200 > :not(:last-child) {
+  border-color: rgb(64 64 64);
+}
+
+.dark .text-neutral-950,
+.dark .text-neutral-900,
+.dark .text-neutral-800 {
+  color: rgb(245 245 245);
+}
+
+.dark .text-neutral-700 {
+  color: rgb(229 229 229);
+}
+
+.dark .text-neutral-600 {
+  color: rgb(212 212 212);
+}
+
+.dark .text-neutral-500 {
+  color: rgb(163 163 163);
+}
+
+.dark .text-neutral-400 {
+  color: rgb(163 163 163);
+}
+
+.dark .text-neutral-300 {
+  color: rgb(115 115 115);
+}
+
+.dark .text-red-700,
+.dark .text-red-800,
+.dark .text-red-900 {
+  color: rgb(252 165 165);
+}
+
+.dark .text-orange-700,
+.dark .text-orange-800\/90,
+.dark .text-orange-900 {
+  color: rgb(253 186 116);
+}
+
+.dark .text-amber-700,
+.dark .text-amber-800 {
+  color: rgb(252 211 77);
+}
+
+.dark .text-blue-700,
+.dark .text-blue-800 {
+  color: rgb(147 197 253);
+}
+
+.dark .text-purple-500,
+.dark .text-purple-600,
+.dark .text-purple-700,
+.dark .text-purple-800 {
+  color: rgb(216 180 254);
+}
+
+.dark .text-rose-700 {
+  color: rgb(253 164 175);
+}
+
+.dark .text-violet-700 {
+  color: rgb(196 181 253);
+}
+
+.dark .text-emerald-600,
+.dark .text-emerald-700 {
+  color: rgb(110 231 183);
+}
+
+.dark .placeholder\:text-neutral-400::placeholder {
+  color: rgb(115 115 115);
+}
+
+.dark .ring-black\/5 {
+  --tw-ring-color: rgb(255 255 255 / 0.1);
+}
+
+.dark .ring-neutral-100,
+.dark .ring-neutral-200 {
+  --tw-ring-color: rgb(82 82 82);
+}
+
+.dark .ring-neutral-300 {
+  --tw-ring-color: rgb(115 115 115);
+}
+
+.dark .ring-red-200 {
+  --tw-ring-color: rgb(153 27 27);
+}
+
+.dark .ring-orange-200 {
+  --tw-ring-color: rgb(154 52 18);
+}
+
+.dark .ring-amber-200 {
+  --tw-ring-color: rgb(146 64 14);
+}
+
+.dark .ring-blue-200,
+.dark .ring-blue-300 {
+  --tw-ring-color: rgb(37 99 235);
+}
+
+.dark .ring-purple-100,
+.dark .ring-purple-200,
+.dark .ring-purple-300 {
+  --tw-ring-color: rgb(126 34 206);
+}
+
+.dark .ring-emerald-200 {
+  --tw-ring-color: rgb(5 150 105);
+}
+
+.dark .hover\:bg-white:hover,
+.dark .focus\:bg-white:focus {
+  background-color: rgb(51 51 51);
+}
+
+.dark .hover\:bg-neutral-50:hover,
+.dark .hover\:bg-neutral-50\/70:hover,
+.dark .focus\:bg-neutral-50:focus {
+  background-color: rgb(45 45 45);
+}
+
+.dark .hover\:bg-neutral-100:hover,
+.dark .focus\:bg-neutral-100:focus {
+  background-color: rgb(64 64 64);
+}
+
+.dark .hover\:bg-red-100:hover {
+  background-color: rgb(127 29 29 / 0.62);
+}
+
+.dark .hover\:bg-purple-100:hover {
+  background-color: rgb(88 28 135 / 0.68);
+}
+
+.dark .hover\:bg-blue-100:hover {
+  background-color: rgb(30 64 175 / 0.66);
+}
+
+.dark .hover\:border-neutral-300:hover {
+  border-color: rgb(115 115 115);
+}
+
+.dark .hover\:text-neutral-900:hover,
+.dark .hover\:text-neutral-800:hover {
+  color: rgb(245 245 245);
+}
+
+.dark .focus\:ring-neutral-300:focus,
+.dark .focus-visible\:ring-neutral-300:focus-visible {
+  --tw-ring-color: rgb(115 115 115);
+}
+
+.dark .focus\:ring-purple-300:focus {
+  --tw-ring-color: rgb(126 34 206);
+}
+
+.dark .accent-neutral-900 {
+  accent-color: rgb(245 245 245);
+}
+
+.font-mono,
+.kbd,
+[data-mono] {
+  font-family: var(--font-mono);
+}

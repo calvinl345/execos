@@ -1,0 +1,4 @@
+interface:
+  display_name: "Help"
+  short_description: "Show a formatted guide to ExecOS workflows"
+  default_prompt: "Use $help-prod only when Jordan clearly asks what ExecOS can do, asks for help understanding available workflows, or uses /help. Print the help guide as categorized Markdown tables; do not trigger for ordinary task-specific help."

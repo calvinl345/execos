@@ -1,0 +1,4 @@
+interface:
+  display_name: "Quarterly Review"
+  short_description: "Reconcile goals and choose quarterly priorities"
+  default_prompt: "Use $quarterly-review-prod when Jordan asks for a quarterly review, goal review, quarter plan, goal reconciliation, goal closure, or goal-first prioritization. Use production `execos goal` commands first, then `execos task` commands for supporting next actions and alignment."

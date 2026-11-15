@@ -1,0 +1,4 @@
+interface:
+  display_name: "Review Tasks"
+  short_description: "Choose Jordan's next tasks and reconcile priorities"
+  default_prompt: "Use $review-tasks-prod when Jordan asks what to do next, what to work on, to refresh his list, re-rank or reprioritize his tasks, plan the day, or review task priorities. Start with production `execos --format json taskops hydrate --operation re-rank` (pass Jordan's situational context via --intent), lead with the ordered list, lock the queue with `execos taskops re-rank` in the same turn, and apply only accepted priority re-tiers through `execos taskops update --task-id KS-### --priority <P>`."

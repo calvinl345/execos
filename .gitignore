@@ -1,0 +1,101 @@
+# Environment
+.env
+.env.backup-*
+.env*.backup-*
+.env*.installing.partial
+.env*.installing-*.tmp
+.env.local
+.env.*.local
+
+# Materialized active profile
+/AGENTS.md
+/CLAUDE.md
+/SOUL.md
+.execos/active-profile.json
+.agents/skills/
+.agents/hooks.json
+.claude/skills/
+.claude/settings.json
+.claude/worktrees/
+.codex/hooks.json
+.gemini/skills/
+.gemini/settings.json
+.cursor
+
+# Dependencies
+node_modules/
+.pnpm-store/
+
+# Build output
+dist/
+.svelte-kit/
+build/
+build-web/
+
+# Logs
+*.log
+logs/
+# ...but the dashboard /logs route is source code, not log output
+!src/web/routes/logs/
+npm-debug.log*
+pnpm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Editor
+.vscode/
+.idea/
+.cursor/
+*.swp
+*.swo
+*~
+
+# Test output
+coverage/
+.vitest-cache/
+test-results/
+
+# Python bytecode (skill scripts)
+__pycache__/
+
+# Local state (operational data lives in Supabase, not here — but tools may write caches)
+.cache/
+*.tsbuildinfo
+.change-requests/*/events.jsonl
+.change-requests
+
+# Test temp dirs
+.tmp-test-*/
+
+# Local data imports / scratch (not part of the repo)
+temp-data-dump/
+supabase/snippets/
+
+# Pre-migration database backups. These contain REAL production data and
+# must never be committed. Durable retention lives in private cloud storage
+# (Phase 3), not in git.
+/backups/
+
+# Active-target state and generated sandbox env (machine-local)
+.execos-target.json
+.env.local.local
+
+# Playwright MCP (snapshots / console dumps under repo root)
+.playwright-mcp/
+
+# Local debug scripts and ephemeral message files (never commit)
+.tmp-*.cjs
+.tmp-*.sh
+.tmp-*.txt
+
+# Local documentation, testing notes, postmortems, and run artifacts. Production
+# behavior lives in source, profiles, migrations, scripts, and architecture/.
+/docs/
+
+# Archived history from the pre-open-source copy (local only, never publish)
+.git-original-history/

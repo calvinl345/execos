@@ -1,0 +1,14 @@
+import { sveltekit } from "@sveltejs/kit/vite";
+import tailwindcss from "@tailwindcss/vite";
+import { defineConfig } from "vite";
+
+export default defineConfig({
+  plugins: [tailwindcss(), sveltekit()],
+  server: {
+    port: Number(process.env.EXECOS_DASHBOARD_PORT ?? 3737),
+    strictPort: false,
+  },
+  preview: {
+    port: Number(process.env.EXECOS_DASHBOARD_PORT ?? 3737),
+  },
+});

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Save Resource"
+  short_description: "Save local documents into ExecOS Resources"
+  default_prompt: "Use $save-resource-prod when the user asks to save_resource, save a document, file a resource, upload a document, or attach a local file to ExecOS. Run `execos resource add` from the project checkout, use --notes - for generated multiline notes, and treat the CLI output as the source of truth."

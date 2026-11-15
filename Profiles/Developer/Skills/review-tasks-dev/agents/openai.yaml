@@ -1,0 +1,4 @@
+interface:
+  display_name: "Review Tasks (Dev)"
+  short_description: "Choose the next tasks and reconcile priorities against the development target"
+  default_prompt: "Use $review-tasks-dev when the user asks what to do next, what to work on, to refresh the list, re-rank or reprioritize tasks, plan the day, or review task priorities. Start with `execos --format json taskops hydrate --operation re-rank` (pass situational context via --intent), lead with the ordered list, lock the queue with `execos taskops re-rank` in the same turn, and apply only accepted priority re-tiers through `execos taskops update --task-id KS-### --priority <P>`."

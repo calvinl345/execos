@@ -1,0 +1,4 @@
+interface:
+  display_name: "Team Delegation"
+  short_description: "Route work to the right teammate using the roster reference"
+  default_prompt: "Use $team-delegation-prod when Jordan asks who should own a task, how to delegate, which PM owns a client, or wants a teammate handoff draft. Read references/team-roster.md in this skill, then align owner slugs with tasks-prod Owner Resolution and production connector confirmation rules."

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Design Change Contract"
+  short_description: "Turn a messy software change request into an inspectable, build-ready change plan"
+  default_prompt: "Use $designing-change-contracts-dev when the user wants to plan, scope, de-risk, or prepare an agent-build prompt for a software change. Convert the user's intent into a Change Contract, distinguish confirmed reality from inferred assumptions, surface risks and unresolved decisions, iterate with the user until aligned, then produce a build-ready Change Plan that can be pasted into a coding agent."

@@ -1,0 +1,4 @@
+interface:
+  display_name: "CLI Help (dev)"
+  short_description: "Compact Jordan dev CLI command reference"
+  default_prompt: "Use $cli-help-dev at the start of a fresh or compacted developer session, before running unfamiliar ExecOS CLI commands, when flags are uncertain, or when Calvin asks what commands exist. This is a reference only; continue to use workflow skills such as tasks-dev, goal-dev, and save-resource-dev for policy."

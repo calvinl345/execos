@@ -1,0 +1,26 @@
+name: DB Guards
+
+# Data-loss prevention gates for database migrations:
+#   - drift:  schema.ts must match the committed migrations
+#   - safety: no migration may destroy data without an acknowledgment file
+# These are deterministic and run on every push and pull request.
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  db-guards:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      - name: Install dependencies
+        run: npm ci
+      - name: Migration drift (schema.ts vs committed migrations)
+        run: node scripts/check-migration-drift.mjs
+      - name: Migration safety (no unacknowledged destructive changes)
+        run: node scripts/check-migration-safety.mjs

@@ -1,0 +1,4 @@
+interface:
+  display_name: "CLI Help"
+  short_description: "Compact ExecOS CLI command reference"
+  default_prompt: "Use $cli-help-prod at the start of a fresh or compacted production session, before running unfamiliar ExecOS CLI commands, when flags are uncertain, or when Jordan asks what commands exist. This is a reference only; continue to use workflow skills such as tasks-prod, goal-prod, and save-resource-prod for policy."

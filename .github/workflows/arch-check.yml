@@ -1,0 +1,24 @@
+name: Architecture Check
+
+# Enforcement backstop for architecture/constitution.md (plan §7.4):
+# dependency-cruiser topology rules, conventions tests (registry,
+# parity, scans, constitution sync), and behavioral goldens.
+# Runs on every push and pull request.
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  arch-check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      - name: Install dependencies
+        run: npm ci
+      - name: arch:check (depcruise + architecture test tier)
+        run: npm run arch:check

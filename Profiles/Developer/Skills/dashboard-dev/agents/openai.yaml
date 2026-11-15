@@ -1,0 +1,4 @@
+interface:
+  display_name: "Dashboard"
+  short_description: "Open or reuse the local ExecOS dashboard"
+  default_prompt: "Use $dashboard-dev when the user asks to open, show, launch, or bring up the ExecOS dashboard or board. Run `execos dashboard start` and treat launched, already-running, or existing-port reuse output as success. In Codex Desktop, request sandbox escalation when the dashboard must persist after the tool call returns."

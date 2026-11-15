@@ -1,0 +1,4 @@
+interface:
+  display_name: "Skill Design"
+  short_description: "Create and edit ExecOS profile skills correctly"
+  default_prompt: "Use $skill-design-dev to create, edit, or review ExecOS skills. Update both Profiles/Developer/Skills and Profiles/Production/Skills by default, validate each SKILL.md, and materialize the selected profile with node scripts/installer/materialize.mjs apply-profile."

@@ -1,0 +1,29 @@
+[PLANNER PACKET]  (cold-start safe: everything needed to continue is below)
+
+Echo this exact header line to start your user-facing response:
+$header
+
+Change: $change_id -- $name
+
+--- ORIGINAL REQUEST (the source these items must trace back to) ---
+$request_block
+
+$situation_line
+$verdict_line
+$focus_line
+Phase: $phase   Persona: $persona   Health: $health
+
+--- PERSONA & METHOD (for this phase) ---
+$phase_block
+
+--- GRAPH STATE ---
+$work_block
+
+RECONCILE HOLISTICALLY: when you apply new information, propagate every implication
+across the whole document in THIS pass; do not leave dependents for later. The CLI
+catches omissions (they surface as STALE) but cannot catch a change that is wrong
+yet internally consistent, so re-read what you touch. Affirm only what you actually
+re-examined against its current dependencies. Never lock a phase yourself (the user
+owns that). Never edit application code; this is planning only.
+
+$next_block

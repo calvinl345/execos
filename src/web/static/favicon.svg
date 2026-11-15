@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" role="img" aria-labelledby="title desc">
+  <title id="title">ExecOS turtle</title>
+  <desc id="desc">A compact green turtle in side profile with a domed segmented shell.</desc>
+  <g stroke="#163d32" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M5.3 15.5 2.2 13.8l1.4 4.4z" fill="#69ad72"/>
+    <path d="M8.5 18.5 6.8 24c1.8 1.2 4.2.4 5.1-2.8l.4-2.7z" fill="#69ad72"/>
+    <path d="M19 18.4 18.1 24c1.8 1.2 4.2.5 5-2.7l.2-2.9z" fill="#69ad72"/>
+    <path d="M20.7 13.2c2-1.8 3.5-2.5 5.1-2.2 2 .3 3.5 2 3.5 4.1s-1.6 3.8-3.8 3.8c-1.6 0-2.9-.7-4.2-2z" fill="#8fca70"/>
+    <path d="M4.4 18.7c0-7.1 4.2-11.4 10.4-11.4 6.3 0 10.4 4.6 10.4 11.4z" fill="#3f8f64"/>
+    <path d="M6.7 17.1c.5-4.8 3.4-7.7 8.1-7.7 4.6 0 7.6 3 8.1 7.7z" fill="#a2cf69" stroke-width="1.35"/>
+    <path d="m10 10.8 4.8 6.3 4.8-6.3M14.8 9.4v7.7M7.2 14h15.2" fill="none" stroke="#397756" stroke-width="1.15"/>
+    <circle cx="27" cy="14.1" r=".85" fill="#163d32" stroke="none"/>
+  </g>
+</svg>

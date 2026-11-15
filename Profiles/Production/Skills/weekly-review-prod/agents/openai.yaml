@@ -1,0 +1,4 @@
+interface:
+  display_name: "Weekly Review"
+  short_description: "Clean up the board and choose next week's focus"
+  default_prompt: "Use $weekly-review-prod when Jordan asks for a weekly review, weekly planning, task-board cleanup, next-week focus, or light task-to-goal alignment. Start with production `execos review weekly`, then reconcile through `execos task` and `execos goal` commands."

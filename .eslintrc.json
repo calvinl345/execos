@@ -1,0 +1,82 @@
+{
+  "root": true,
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "ecmaVersion": 2022,
+    "sourceType": "module"
+  },
+  "plugins": ["@typescript-eslint"],
+  "extends": [
+    "eslint:recommended",
+    "plugin:@typescript-eslint/recommended"
+  ],
+  "rules": {
+    "@typescript-eslint/no-unused-vars": ["error", { "argsIgnorePattern": "^_" }],
+    "no-console": ["warn", { "allow": ["warn", "error"] }]
+  },
+  "overrides": [
+    {
+      "files": ["**/*.svelte"],
+      "parser": "svelte-eslint-parser",
+      "parserOptions": {
+        "parser": "@typescript-eslint/parser",
+        "ecmaVersion": 2022,
+        "sourceType": "module",
+        "extraFileExtensions": [".svelte"]
+      },
+      "env": {
+        "browser": true,
+        "es2022": true
+      },
+      "rules": {
+        "no-inner-declarations": "off",
+        "no-undef": "off"
+      }
+    },
+    {
+      "files": ["src/**/*.ts"],
+      "rules": {
+        "no-restricted-imports": [
+          "error",
+          {
+            "patterns": [
+              {
+                "group": ["**/health/index", "**/health/index.js"],
+                "importNames": [
+                  "_getRegisteredProbeForTest",
+                  "_unregisterProbeForTest"
+                ],
+                "message": "_*ForTest symbols are test-only and must not be imported from production code under src/. They exist for tests/** to introspect or reset module-private state."
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "files": ["src/web/**/*.{ts,svelte}"],
+      "rules": {
+        "no-restricted-imports": [
+          "error",
+          {
+            "patterns": [
+              {
+                "group": ["**/db/index", "**/db/index.ts", "**/db/index.js"],
+                "message": "Service-role DB client is forbidden in src/web/. Import from 'src/db/anon-client' instead. RLS-enforced read-only path."
+              },
+              {
+                "group": ["**/health/index", "**/health/index.js"],
+                "importNames": [
+                  "_getRegisteredProbeForTest",
+                  "_unregisterProbeForTest"
+                ],
+                "message": "_*ForTest symbols are test-only and must not be imported from production code under src/. They exist for tests/** to introspect or reset module-private state."
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "ignorePatterns": ["dist/", "node_modules/", ".svelte-kit/", "*.config.ts", "*.config.js"]
+}

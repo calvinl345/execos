@@ -1,0 +1,4 @@
+interface:
+  display_name: "Team Delegation (dev)"
+  short_description: "Route work to the right teammate using the roster reference"
+  default_prompt: "Use $team-delegation-dev when Jordan asks who should own a task, how to delegate, which PM owns a client, or wants a teammate handoff draft. Read references/team-roster.md in this skill, then align owner slugs with tasks-dev Owner Resolution. Prefer daily for task CLI in development."

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Tasks (dev)"
+  short_description: "Create, update, list, and explain ExecOS dev tasks"
+  default_prompt: "Use $tasks-dev whenever Calvin wants to add, update, complete, cancel, list, prioritize details for, or ask about tasks in the development profile, including due-date questions. Use execos --format json task list for summaries, use --title plus --description - / --note - for generated long task captures, reserve --*-file for preexisting files, and follow task references and intake rules from the skill."

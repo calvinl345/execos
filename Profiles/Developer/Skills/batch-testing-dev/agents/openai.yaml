@@ -1,0 +1,4 @@
+interface:
+  display_name: "Batch Testing (dev)"
+  short_description: "App testing: emit-only scenario scripts plus the testing-batch issue workflow"
+  default_prompt: "Use $batch-testing-dev for testing the ExecOS app itself. Two modes: (1) when Calvin describes a scenario to exercise against the development ExecOS CLI, emit a copy-paste test script with ordered execos commands, per-step expected observations (receipt fields, hydration packet sections, expected refusals), and a cleanup block; never execute the scenario commands yourself. (2) When Calvin reports a problem found while testing, investigate it to root cause and append a self-contained issue entry to the active batch document under docs/testing/; also handles sequencing, fixing, and closing a batch. Do not fix application code during the collecting phase."

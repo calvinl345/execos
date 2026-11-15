@@ -1,0 +1,6 @@
+# Database data-loss guards (Phase 1).
+# safety is instant; drift runs drizzle-kit generate (a few seconds).
+# If the drift check ever feels too slow on unrelated commits, move that
+# line to a .husky/pre-push hook instead.
+node scripts/check-migration-safety.mjs
+node scripts/check-migration-drift.mjs
