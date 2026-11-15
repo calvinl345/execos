@@ -151,7 +151,7 @@ execos resource add "<path>" --category personal
 execos dashboard start
 ```
 
-`execos` always uses `.env.production.local`. If Jordan asks to target development, use `execos ...` explicitly.
+`execos` runs against the active target, which is `.env.production.local` after a normal install. Check it with `npm run target:status`. If Jordan asks to target development, switch with `npm run target:dev`, and switch back with `npm run target:prod` when done.
 
 Use `execos <family> --help` or `execos <family> <command> --help` before saying a requested flag or flow is unavailable.
 

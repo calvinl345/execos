@@ -1,5 +1,5 @@
 /**
- * gate_events writes (W5, docs/plans/feedback-batch-waves-2-3.md).
+ * gate_events writes (see architecture/decisions/020-gate-events-telemetry.md).
  *
  * appendGateEvent() is the ONLY write path to the gate_events table —
  * the append-only scan in tests/db/append-only-scan.test.ts enforces that

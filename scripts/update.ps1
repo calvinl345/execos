@@ -124,7 +124,7 @@ if ($NoClearScreen) { $installArgs += "-NoClearScreen" }
 Write-Step "Running installer update mode"
 & powershell @installArgs
 if ($LASTEXITCODE -ne 0) {
-  throw "Jordan update failed."
+  throw "ExecOS update failed."
 }
 
 Write-Host ""

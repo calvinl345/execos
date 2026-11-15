@@ -90,7 +90,7 @@ function nonEmpty(bands: Band[]): Band[] {
 /**
  * A future-snoozed task is never in the queue, even if a stale queue_rank
  * lingers from before snooze-clears-rank shipped: snooze and queue rank are
- * mutually exclusive (docs/plans/snooze-queue-exclusion.md). deferTask now
+ * mutually exclusive. deferTask now
  * clears the rank on new snoozes; this keeps the band correct for any legacy
  * row whose rank predates that change, so a parked task never sits in MY QUEUE.
  */

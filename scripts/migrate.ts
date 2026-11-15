@@ -67,7 +67,7 @@ function repoRootFromHere(): string {
 /**
  * Apply-time destructive firewall. The same scan runs in CI and the
  * pre-commit hook, but this is the last line of defense: it runs on the
- * machine actually mutating the database (including Jordan's installer),
+ * machine actually mutating the database (including the ExecOS installer),
  * so an unacknowledged destructive migration is refused even if it somehow
  * slipped past the earlier gates.
  */
@@ -330,7 +330,7 @@ function assertRollbackAllowed(): void {
 
   throw new Error(
     [
-      "Refusing rollback: migrate down drops Jordan tables, views, sequences, and migration history.",
+      "Refusing rollback: migrate down drops ExecOS tables, views, sequences, and migration history.",
       "It runs automatically only for EXECOS_DB_ENV=test on localhost.",
       `For an intentional non-test rollback, set EXECOS_ALLOW_SCHEMA_ROLLBACK=${ROLLBACK_ACK}.`,
     ].join(" "),

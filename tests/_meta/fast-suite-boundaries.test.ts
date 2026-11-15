@@ -20,10 +20,12 @@ describe("fast suite contains no DB imports", () => {
     expect(config).toContain('"tests/db/**"');
     expect(config).not.toContain("fileParallelism: false");
 
+    // Normalize separators so the exclusions hold on Windows, macOS, and Linux.
     const offenders = sourceFiles("tests")
-      .filter((file) => !file.includes("tests\\_meta\\"))
-      .filter((file) => !file.includes("tests\\db\\"))
-      .filter((file) => !file.includes("tests\\integration\\db\\"))
+      .map((file) => file.replace(/\\/g, "/"))
+      .filter((file) => !file.includes("tests/_meta/"))
+      .filter((file) => !file.includes("tests/db/"))
+      .filter((file) => !file.includes("tests/integration/db/"))
       .filter((file) => {
         const text = readFileSync(file, "utf8");
         return /from ["'](?:\.\.\/)+src\/db\/index\.js["']/.test(text)

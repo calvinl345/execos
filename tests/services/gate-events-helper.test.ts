@@ -1,6 +1,6 @@
 /**
- * Contract tests for the gate_events write helper (W5,
- * docs/plans/feedback-batch-waves-2-3.md).
+ * Contract tests for the gate_events write helper (see
+ * architecture/decisions/020-gate-events-telemetry.md).
  *
  * appendGateEvent() is the only write path to gate_events (the append-only
  * scan in tests/db/append-only-scan.test.ts enforces that mechanically);

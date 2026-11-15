@@ -1,4 +1,4 @@
-import { readdirSync, readFileSync, statSync } from "node:fs";
+import { existsSync, readdirSync, readFileSync, statSync } from "node:fs";
 import { join } from "node:path";
 import { Command } from "commander";
 import { beforeEach, describe, expect, it, vi } from "vitest";
@@ -188,10 +188,13 @@ function readWorkspaceFile(path: string): string {
 }
 
 describe("profile and agent command guidance", () => {
-  it("does not teach agents the brittle npm-run Jordan invocation", () => {
+  it("does not teach agents the brittle npm-run execos invocation", () => {
+    // Root AGENTS.md / CLAUDE.md are materialized by the installer and are
+    // gitignored, so a fresh clone has neither; scan them only when present.
     const files = [
-      "AGENTS.md",
-      "CLAUDE.md",
+      ...["AGENTS.md", "CLAUDE.md"]
+        .map((file) => join(process.cwd(), file))
+        .filter((file) => existsSync(file)),
       ...listFiles(join(process.cwd(), "Profiles")).filter((file) =>
         /\.(md|yaml|yml)$/.test(file),
       ),

@@ -29,6 +29,14 @@ export async function runExecosLauncher(argv = process.argv.slice(2), root = rep
   const state = readTarget(root);
   const envFileName = activeEnvFile(state);
   const envPath = resolve(root, envFileName);
+  // Help needs no database, so it works on a fresh clone with no env file yet.
+  const helpOnly = argv.length === 0 || argv.includes("--help") || argv.includes("-h");
+  if (!existsSync(envPath) && helpOnly) {
+    process.stderr.write(
+      `No environment file yet (${envFileName}); showing help only. Run the installer to configure ExecOS.\n`,
+    );
+    return runCli(argv, root);
+  }
   if (!existsSync(envPath)) {
     throw new Error(
       `Environment file not found: ${envFileName}. ` +
@@ -53,6 +61,10 @@ export async function runExecosLauncher(argv = process.argv.slice(2), root = rep
   // EXECOS_DEMO_MODE=1 hides the target banner for clean screenshots and recordings.
   if (process.env.EXECOS_DEMO_MODE !== "1") process.stderr.write(`${banner(state)}\n`);
 
+  return runCli(argv, root);
+}
+
+async function runCli(argv, root) {
   await import("tsx/esm");
   const entrypoint = resolve(root, "src", "cli", "index.ts");
   if (!existsSync(entrypoint)) {

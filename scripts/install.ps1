@@ -245,7 +245,7 @@ function Write-SupabaseExtensionsScreen {
   Write-ProgressLine $Step $TotalSteps
   Write-Host ""
   Write-Host (Format-Bold "2. Enable Supabase extensions") -ForegroundColor Cyan
-  Write-Host "  Supabase does not always enable Jordan's required Postgres extensions by default."
+  Write-Host "  Supabase does not always enable the Postgres extensions ExecOS requires by default."
   Write-Host "  Open the project extensions page:"
   Write-LabelLine "Open" $extensionsUrl
   Write-Host ""
@@ -788,7 +788,7 @@ function Get-IncompleteInstallPromptLines {
     "",
     "Do not run ExecOS operational workflows yet, including task management, dashboard launch, memory, review, resource upload, database migration, or health-check commands.",
     "",
-    "If the user asks for Jordan help, tell them setup is incomplete and ask them to rerun the installer from the repo root:",
+    "If the user asks for ExecOS help, tell them setup is incomplete and ask them to rerun the installer from the repo root:",
     "",
     '```powershell',
     "cd `"$RepoRoot`"",
@@ -817,9 +817,9 @@ function Write-IncompleteInstallSkill {
   Write-TextFile $skillPath @(
     "# Installation Required",
     "",
-    "Use when the user asks to operate ExecOS, open the dashboard, manage tasks, run reviews, save resources, query memory, or use project-specific Jordan workflows.",
+    "Use when the user asks to operate ExecOS, open the dashboard, manage tasks, run reviews, save resources, query memory, or use project-specific ExecOS workflows.",
     "",
-    "ExecOS installation has not completed successfully in this checkout. Do not run operational Jordan commands.",
+    "ExecOS installation has not completed successfully in this checkout. Do not run operational ExecOS commands.",
     "",
     "Tell the user to rerun the installer from the repo root:",
     "",
@@ -1609,7 +1609,7 @@ if ($UseExistingCredentials) {
     "Find it in Supabase: Project Settings -> API Keys -> Publishable and secret API keys.",
     "Open: https://supabase.com/dashboard/project/$supabaseProjectId/settings/api",
     "Copy the Secret key. It usually starts with sb_secret_. Legacy service_role keys also work.",
-    "Jordan's CLI uses this for writes and storage uploads. Keep it private."
+    "The ExecOS CLI uses this for writes and storage uploads. Keep it private."
   ) -Step 4 -TotalSteps $credentialSteps
   $values["SUPABASE_ANON_KEY"] = Read-ConfigValue "SUPABASE_ANON_KEY" "5. Supabase publishable/anon key" $existing -Required -Secret -Help @(
     "Find it in Supabase: Project Settings -> API Keys -> Publishable and secret API keys.",
@@ -1623,7 +1623,7 @@ if ($UseExistingCredentials) {
     "Paste only the full URL value, without DATABASE_URL= or quotes. Replace [YOUR-PASSWORD] before pasting."
   ) -Normalize ${function:Convert-DatabaseUrlInput} -Step 6 -TotalSteps $credentialSteps
   $values["OPENAI_API_KEY"] = Read-ConfigValue "OPENAI_API_KEY" "7. OpenAI API key" $existing -Required -Secret -Help @(
-    "Used only by Jordan's embedding adapter for memory retrieval.",
+    "Used only by the ExecOS embedding adapter for memory retrieval.",
     "Open: https://platform.openai.com/api-keys",
     "It starts with sk-."
   ) -Step 7 -TotalSteps $credentialSteps
