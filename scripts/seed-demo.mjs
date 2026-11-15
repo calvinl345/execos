@@ -183,4 +183,18 @@ for (const [name, category, key, body] of docs) {
   step(`resource: ${name}`, () => execos(...args));
 }
 
+console.log("Guardrails");
+// Re-capture an existing task the way a voice note might. The dedup gate should
+// refuse it, which records a gate event on the dashboard's Logs page.
+try {
+  execos("taskops", "create",
+    "--title", "Fix Larkspur October invoice discrepancy",
+    "-d", "Larkspur says the October invoice is off by 1,200 dollars and wants a corrected copy.",
+    "-c", "business", "--due", "Friday");
+  console.log("  warn duplicate create was NOT refused (dedup gate did not fire)");
+} catch (err) {
+  const refused = /refused/i.test(String(err.stdout || err.stderr || err.message));
+  console.log(refused ? "  ok   gate: duplicate task refused" : `  skip gate demo: ${String(err.message).slice(0, 160)}`);
+}
+
 console.log(`\nDone. ${Object.keys(T).length} tasks, ${Object.keys(goals).length} goals.`);

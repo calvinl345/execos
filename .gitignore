@@ -95,7 +95,9 @@ supabase/snippets/
 
 # Local documentation, testing notes, postmortems, and run artifacts. Production
 # behavior lives in source, profiles, migrations, scripts, and architecture/.
-/docs/
+/docs/*
+!/docs/screenshots/
+!/docs/operations-guide.md
 
 # Archived history from the pre-open-source copy (local only, never publish)
 .git-original-history/

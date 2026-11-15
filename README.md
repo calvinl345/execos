@@ -15,6 +15,8 @@ version with fictional demo data.
 > [!NOTE]
 > All names, companies, and tasks in the demo data and test fixtures are fictional.
 
+![ExecOS command inbox: follow-ups, the agent-ranked queue, and a task with the agent's ranking rationale](docs/screenshots/command-inbox.png)
+
 ---
 
 ## Why it is more than a task app
@@ -55,6 +57,30 @@ flowchart LR
 4. **Receipt.** The CLI returns a structured receipt the agent relays back, and
    both the change and any gate decision land in the audit log the dashboard
    shows.
+
+---
+
+## Screenshots
+
+**Kanban board.** Every task with its priority, category, status, and goal link.
+
+![Kanban board](docs/screenshots/kanban.png)
+
+**Audit log.** Every change and every guardrail decision. Here the duplicate gate blocked the agent from re-creating an existing task.
+
+![Activity and gate-event log](docs/screenshots/activity-log.png)
+
+**Quarterly goals.** Goals are first-class records that tasks link to.
+
+![Goals board](docs/screenshots/goals.png)
+
+**Documents.** Files in private storage, linked to tasks, downloaded through short-lived signed URLs.
+
+![Documents](docs/screenshots/documents.png)
+
+**Installer.** A guided setup that validates every credential before writing anything.
+
+![ExecOS installer](docs/screenshots/installer.png)
 
 ---
 
